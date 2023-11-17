@@ -1,13 +1,13 @@
-package com.sparta.sprtatodo;
+package com.sparta.spartatodo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SprtaTodoApplication {
+public class SpartaTodoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SprtaTodoApplication.class, args);
+        SpringApplication.run(SpartaTodoApplication.class, args);
     }
 
 }

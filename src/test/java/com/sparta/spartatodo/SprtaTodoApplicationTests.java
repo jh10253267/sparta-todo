@@ -1,4 +1,4 @@
-package com.sparta.sprtatodo;
+package com.sparta.spartatodo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
