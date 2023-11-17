@@ -1,4 +1,4 @@
-package com.sparta.spartatodo;
+package com.sparta.spartatodo.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
