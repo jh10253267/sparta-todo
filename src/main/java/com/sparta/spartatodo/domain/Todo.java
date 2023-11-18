@@ -2,6 +2,7 @@ package com.sparta.spartatodo.domain;
 
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,6 +24,8 @@ public class Todo extends BaseEntity{
     private String content;
     @Column(length = 50, nullable = false)
     private String writer;
+    @ColumnDefault("0")
+    @Column(columnDefinition = "TINYINT(1)")
     private boolean complete;
 
     public void changeTitle(String title) {
