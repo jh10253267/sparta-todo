@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<input type="text" class="mid">
+<input type="text" class="mpw">
+
+<button class="loginBtn">Login</button>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const $loginBtn = document.querySelector(".loginBtn");
+    $loginBtn.addEventListener("click", () => {
+        let mid = document.querySelector(".mid").value;
+        let mpw = document.querySelector(".mpw").value;
+        console.log(mid);
+        const data = {
+            mid : mid,
+            mpw : mpw
+        };
+
+        console.log(data);
+        axios.post("http://localhost:8080/login", data).then(res => {
+            const accessToken = res.data.accessToken;
+            const refreshToken = res.data.refreshToken;
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+        })
+
+    }, false);
+
+</script>
+</body>
+</html>
