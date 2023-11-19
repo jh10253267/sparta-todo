@@ -40,7 +40,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TodoResponseDTO> readAll() {
-        List<Todo> todos = todoRepository.findAll();
+        List<Todo> todos = todoRepository.findAllByOrderByCreatedAtDesc();
 
         return todos.stream()
                 .map(todo -> modelMapper.map(todo, TodoResponseDTO.class))
