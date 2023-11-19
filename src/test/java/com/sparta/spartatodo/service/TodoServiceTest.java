@@ -1,6 +1,6 @@
 package com.sparta.spartatodo.service;
 
-import com.sparta.spartatodo.dto.TodoRegisterRequestDTO;
+import com.sparta.spartatodo.dto.TodoRequestDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,7 @@ class TodoServiceTest {
     @DisplayName("[Todo] [Service] [Register]")
     @Test
     void givenTestDTOData_whenDoRegister_thenReturnsLongValue() {
-        TodoRegisterRequestDTO todoRequestDTO = TodoRegisterRequestDTO.builder()
+        TodoRequestDTO todoRequestDTO = TodoRequestDTO.builder()
                 .title("test title")
                 .content("contest test")
                 .build();
@@ -72,20 +72,18 @@ class TodoServiceTest {
         //Given
         Long tno = 1L;
         String modTitle = "modifyTest...";
-        TodoResponseDTO todoResponseDTO = TodoResponseDTO.builder()
-                .tno(tno)
-                .title("modifyTest...")
-                .content("content...")
-                .writer("modi test")
-                .complete(true)
+        TodoRequestDTO todoRequestDTO = TodoRequestDTO.builder()
+                .title("test")
+                .content("test")
                 .build();
 
-//        //When
-//        sut.modify(todoResponseDTO);
-//
-//        //Then
-//        TodoResponseDTO modDto = sut.read(tno);
-//        assertThat(modDto.getTitle()).isEqualTo(modTitle);
+        //When
+        sut.modify(tno, todoRequestDTO);
+
+        //Then
+        TodoResponseDTO modDto = sut.read(tno);
+        assertThat(modDto.getTitle()).isEqualTo(modTitle);
 
     }
+
 }

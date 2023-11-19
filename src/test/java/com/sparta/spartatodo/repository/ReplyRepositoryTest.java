@@ -8,6 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.swing.text.html.Option;
+
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -35,4 +39,18 @@ class ReplyRepositoryTest {
         //Then
         assertThatCode(() -> replyRepository.save(reply)).doesNotThrowAnyException();
     }
+
+    @DisplayName("[Reply] [Repository] [FindById]")
+    @Test
+    void givenRno_whenDoFindById_thenReturnsReply() {
+        //Given
+        Long rno = 1L;
+        //When
+        //Then
+        Optional<Reply> result = replyRepository.findById(rno);
+        Reply reply = result.orElseThrow();
+        log.info(reply);
+    }
+
+
 }

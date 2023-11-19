@@ -2,12 +2,15 @@ package com.sparta.spartatodo.controller;
 
 
 import com.sparta.spartatodo.domain.Todo;
+import com.sparta.spartatodo.dto.PageRequestDTO;
+import com.sparta.spartatodo.dto.PageResponseDTO;
 import com.sparta.spartatodo.dto.TodoRequestDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import com.sparta.spartatodo.service.TodoService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -25,7 +28,7 @@ import java.util.Map;
 public class TodoMainController {
     private final TodoService todoService;
 
-    @ApiOperation(value = "Post new Todo",notes="POST 방식으로 새로운 투두 등록" )
+    @ApiOperation(value = "Post new Todo",notes="POST 방식으로 새로운 할일 등록" )
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> register(@Valid @RequestBody TodoRequestDTO todoRequestDTO, BindingResult bindingResult) throws BindException {
         if(bindingResult.hasErrors()) {
@@ -47,12 +50,9 @@ public class TodoMainController {
         map.put("todo", todoResponseDTO);
         return map;
     }
-    @GetMapping("/list")
-    public Map<String, Object> todos() {
-        Map<String, Object> map = new HashMap<>();
-        List<TodoResponseDTO> todoResponseDTOList = todoService.readAll();
-        map.put("todo list", todoResponseDTOList);
-        return map;
+    @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO) {
+        return todoService.list(pageRequestDTO);
     }
     @PutMapping(value="/{tno}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> modify(@PathVariable("tno") Long tno, @RequestBody TodoRequestDTO todoRequestDTO) {
@@ -67,6 +67,8 @@ public class TodoMainController {
     public void updateComplete(@PathVariable("tno") Long tno) {
         todoService.updateComplete(tno);
     }
+
+
 
 
 }

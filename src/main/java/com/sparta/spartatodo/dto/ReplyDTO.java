@@ -1,21 +1,21 @@
 package com.sparta.spartatodo.dto;
 
+import com.sparta.spartatodo.domain.Reply;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoResponseDTO {
-    private String title;
-    private String content;
-    private String writer;
-    private boolean complete;
+public class ReplyDTO {
+    @NotBlank
+    private String replyText;
+    private String replyWriter;
     private LocalDateTime createdAt;
 }
