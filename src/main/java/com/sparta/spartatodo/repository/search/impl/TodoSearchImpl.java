@@ -3,17 +3,13 @@ package com.sparta.spartatodo.repository.search.impl;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
-import com.sparta.spartatodo.domain.QReply;
 import com.sparta.spartatodo.domain.QTodo;
 import com.sparta.spartatodo.domain.Todo;
 import com.sparta.spartatodo.dto.PageRequestDTO;
-import com.sparta.spartatodo.dto.TodoListReplyCountDTO;
-import com.sparta.spartatodo.dto.ReplyDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import com.sparta.spartatodo.repository.search.TodoSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;

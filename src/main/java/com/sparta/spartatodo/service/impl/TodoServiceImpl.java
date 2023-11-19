@@ -1,6 +1,8 @@
 package com.sparta.spartatodo.service.impl;
 
 import com.sparta.spartatodo.domain.Todo;
+import com.sparta.spartatodo.dto.PageRequestDTO;
+import com.sparta.spartatodo.dto.PageResponseDTO;
 import com.sparta.spartatodo.dto.TodoRequestDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import com.sparta.spartatodo.repository.TodoRepository;
@@ -8,6 +10,7 @@ import com.sparta.spartatodo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,13 +42,15 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<TodoResponseDTO> readAll() {
-        List<Todo> todos = todoRepository.findAllByOrderByCreatedAtDesc();
-
-        return todos.stream()
-                .map(todo -> modelMapper.map(todo, TodoResponseDTO.class))
-                .collect(Collectors.toList());
+    public PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO) {
+        Page<TodoResponseDTO> result = todoRepository.searchWithQuery(pageRequestDTO);
+        return PageResponseDTO
+                .<TodoResponseDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .total((int)result.getTotalElements())
+                .build();
     }
+
 
     @Override
     public void remove(Long tno) {
