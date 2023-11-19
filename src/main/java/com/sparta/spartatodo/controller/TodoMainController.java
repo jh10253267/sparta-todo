@@ -63,6 +63,10 @@ public class TodoMainController {
 
         return map;
     }
+    @PostMapping("/{tno}")
+    public void updateComplete(@PathVariable("tno") Long tno) {
+        todoService.updateComplete(tno);
+    }
 
 
 }
