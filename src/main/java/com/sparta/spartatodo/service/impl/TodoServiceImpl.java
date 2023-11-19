@@ -1,7 +1,7 @@
 package com.sparta.spartatodo.service.impl;
 
 import com.sparta.spartatodo.domain.Todo;
-import com.sparta.spartatodo.dto.TodoRegisterRequestDTO;
+import com.sparta.spartatodo.dto.TodoRequestDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import com.sparta.spartatodo.repository.TodoRepository;
 import com.sparta.spartatodo.service.TodoService;
@@ -22,7 +22,7 @@ public class TodoServiceImpl implements TodoService {
     private final ModelMapper modelMapper;
 
     @Override
-    public TodoResponseDTO register(TodoRegisterRequestDTO todoRequestDTO) {
+    public TodoResponseDTO register(TodoRequestDTO todoRequestDTO) {
         Todo todo = modelMapper.map(todoRequestDTO, Todo.class);
         Todo resultTodo = todoRepository.save(todo);
         TodoResponseDTO todoResponseDTO = modelMapper.map(resultTodo, TodoResponseDTO.class);
@@ -53,8 +53,15 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void modify(TodoRegisterRequestDTO todoRequestDTO) {
+    public TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO) {
+        Optional<Todo> result = todoRepository.findById(tno);
+        Todo todo = result.orElseThrow();
+        todo.changeTitle(todoRequestDTO.getTitle());
+        todo.changeContent(todoRequestDTO.getContent());
 
+        Todo modTodo = todoRepository.save(todo);
+        TodoResponseDTO todoResponseDTO = modelMapper.map(modTodo, TodoResponseDTO.class);
+        return todoResponseDTO;
     }
 
 

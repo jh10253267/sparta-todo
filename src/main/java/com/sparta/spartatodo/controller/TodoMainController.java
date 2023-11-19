@@ -1,6 +1,8 @@
 package com.sparta.spartatodo.controller;
 
-import com.sparta.spartatodo.dto.TodoRegisterRequestDTO;
+
+import com.sparta.spartatodo.domain.Todo;
+import com.sparta.spartatodo.dto.TodoRequestDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import com.sparta.spartatodo.service.TodoService;
 import io.swagger.annotations.ApiOperation;
@@ -25,20 +27,20 @@ public class TodoMainController {
 
     @ApiOperation(value = "Post new Todo",notes="POST 방식으로 새로운 투두 등록" )
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> register(@Valid @RequestBody TodoRegisterRequestDTO todoRegisterRequestDTO, BindingResult bindingResult) throws BindException {
+    public Map<String, Object> register(@Valid @RequestBody TodoRequestDTO todoRequestDTO, BindingResult bindingResult) throws BindException {
         if(bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
         Map<String, Object> map = new HashMap<>();
 
-        TodoResponseDTO todoResponseDTO = todoService.register(todoRegisterRequestDTO);
+        TodoResponseDTO todoResponseDTO = todoService.register(todoRequestDTO);
         log.info(todoResponseDTO);
 
         map.put("Your Todo", todoResponseDTO);
         return map;
     }
     @GetMapping("/{tno}")
-    public Map<String, Object> todo(@PathVariable("tno") long tno) {
+    public Map<String, Object> todo(@PathVariable("tno") Long tno) {
         Map<String, Object> map = new HashMap<>();
         TodoResponseDTO todoResponseDTO = todoService.read(tno);
 
@@ -50,6 +52,15 @@ public class TodoMainController {
         Map<String, Object> map = new HashMap<>();
         List<TodoResponseDTO> todoResponseDTOList = todoService.readAll();
         map.put("todo list", todoResponseDTOList);
+        return map;
+    }
+    @PutMapping(value="/{tno}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> modify(@PathVariable("tno") Long tno, @RequestBody TodoRequestDTO todoRequestDTO) {
+        Map<String, Object> map = new HashMap<>();
+
+        TodoResponseDTO todoResponseDTO = todoService.modify(tno,todoRequestDTO);
+        map.put("Modified Todo", todoResponseDTO);
+
         return map;
     }
 
