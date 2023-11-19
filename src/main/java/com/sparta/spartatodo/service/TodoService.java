@@ -13,4 +13,5 @@ public interface TodoService {
     List<TodoResponseDTO> readAll();
     void remove(Long tno);
     TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO);
+    void updateComplete(Long tno);
 }

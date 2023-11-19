@@ -64,6 +64,15 @@ public class TodoServiceImpl implements TodoService {
         return todoResponseDTO;
     }
 
+    @Override
+    public void updateComplete(Long tno) {
+        Optional<Todo> result = todoRepository.findById(tno);
+        Todo todo = result.orElseThrow();
+
+        todo.changeComplete(true);
+        todoRepository.save(todo);
+    }
+
 
 }
 
