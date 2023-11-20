@@ -24,8 +24,6 @@ import static org.assertj.core.api.Assertions.*;
 class TodoRepositoryTest {
     @Autowired
     private TodoRepository todoRepository;
-    @Autowired
-    private ReplyRepository replyRepository;
 
     @DisplayName("Todo Repository의 데이터 삽입 기능 테스트")
     @Test
@@ -45,41 +43,14 @@ class TodoRepositoryTest {
     }
 
     @Test
-    void name() {
-        Pageable pageable = PageRequest.of(1, 10, Sort.by("tno").descending());
+    void nam1e() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .keyword("mod")
+                .completed(true)
+                .build();
 
-        todoRepository.search1(pageable);
+        Page<TodoResponseDTO> result = todoRepository.searchWithQuery(pageRequestDTO);
+        result.forEach(todoResponseDTO -> log.info(todoResponseDTO));
+
     }
-
-    @Test
-    void contains() {
-        String keyword = "1";
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("tno").descending());
-        Page<Todo> result = todoRepository.searchAll(keyword, pageable);
-        log.info(result.getTotalPages());
-        log.info(result.getNumber());
-        result.getContent().forEach(todo -> log.info(todo));
-    }
-
-    @Test
-    void sss() {
-        Long tno = 1L;
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("rno").descending());
-
-        Page<Reply> result = replyRepository.listOfTodo(tno, pageable);
-        result.getContent().forEach(reply -> {
-            log.info(reply);
-        });
-    }
-
-//    @Test
-//    void nam1e() {
-//        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-//                .keyword("mod")
-//                .build();
-//
-//        Page<TodoResponseDTO> result = todoRepository.searchWithReplies(pageRequestDTO);
-//        result.forEach(todoResponseDTO -> log.info(todoResponseDTO));
-//
-//    }
 }

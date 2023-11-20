@@ -1,10 +1,13 @@
 package com.sparta.spartatodo.service.impl;
 
 import com.sparta.spartatodo.domain.Reply;
+import com.sparta.spartatodo.domain.Todo;
 import com.sparta.spartatodo.dto.PageRequestDTO;
 import com.sparta.spartatodo.dto.PageResponseDTO;
 import com.sparta.spartatodo.dto.ReplyDTO;
+import com.sparta.spartatodo.dto.ReplyRequestDTO;
 import com.sparta.spartatodo.repository.ReplyRepository;
+import com.sparta.spartatodo.repository.TodoRepository;
 import com.sparta.spartatodo.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,14 +27,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
+    private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
     @Override
-    public ReplyDTO register(ReplyDTO todoReplyDTO) {
-        Reply reply = modelMapper.map(todoReplyDTO, Reply.class);
+    public ReplyDTO register(Long bno, ReplyRequestDTO replyRequestDTO) {
+        Optional<Todo> result = todoRepository.findById(bno);
+        Todo todo = result.orElseThrow();
 
-        Reply modReply = replyRepository.save(reply);
+        Reply reply = Reply.builder()
+                .todo(todo)
+                .replyText(replyRequestDTO.getReplyText())
+                .replyWriter(replyRequestDTO.getReplyWriter())
+                .build();
+        Reply createdReply = replyRepository.save(reply);
 
-        return modelMapper.map(modReply, ReplyDTO.class);
+        return modelMapper.map(createdReply, ReplyDTO.class);
     }
 
     @Override
@@ -42,16 +52,24 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public ReplyDTO modify(Long rno, ReplyDTO replyDTO) {
+    public ReplyDTO modify(Long rno, ReplyRequestDTO replyRequestDTO, String username) {
         Optional<Reply> result = replyRepository.findById(rno);
         Reply reply = result.orElseThrow();
+        if(!reply.getReplyWriter().equals(username)) {
+            return null;
+        }
         reply.changeText(reply.getReplyText());
         Reply modReply = replyRepository.save(reply);
         return modelMapper.map(modReply, ReplyDTO.class);
     }
 
     @Override
-    public void remove(Long rno) {
+    public void remove(Long rno, String username) {
+        Optional<Reply> result = replyRepository.findById(rno);
+        Reply reply = result.orElseThrow();
+        if(!reply.getReplyWriter().equals(username)) {
+            return;
+        }
         replyRepository.deleteById(rno);
     }
     @Override

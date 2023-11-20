@@ -6,7 +6,6 @@ import com.sparta.spartatodo.dto.TodoRequestDTO;
 import com.sparta.spartatodo.dto.TodoResponseDTO;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Transactional
 public interface TodoService {
@@ -15,5 +14,5 @@ public interface TodoService {
     PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO);
     void remove(Long tno);
     TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO);
-    void updateComplete(Long tno);
+    void updateComplete(Long tno, String username);
 }

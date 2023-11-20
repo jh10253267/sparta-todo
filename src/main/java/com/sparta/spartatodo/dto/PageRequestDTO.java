@@ -21,6 +21,7 @@ public class PageRequestDTO {
     @Builder.Default
     private int size = 10;
     private String keyword;
+    private Boolean completed;
 
     public Pageable getPageable(String... props) {
         return PageRequest.of(this.page - 1, this.size, Sort.by(props).descending());

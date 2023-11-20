@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,16 +46,15 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO) {
         Page<TodoResponseDTO> result = todoRepository.searchWithQuery(pageRequestDTO);
-        return PageResponseDTO
-                .<TodoResponseDTO>withAll()
+        return PageResponseDTO.<TodoResponseDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
                 .total((int)result.getTotalElements())
                 .build();
     }
 
-
     @Override
     public void remove(Long tno) {
+
         todoRepository.deleteById(tno);
     }
 
@@ -70,10 +71,12 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void updateComplete(Long tno) {
+    public void updateComplete(Long tno, String username) {
         Optional<Todo> result = todoRepository.findById(tno);
         Todo todo = result.orElseThrow();
-
+        if(!todo.getWriter().equals(username)) {
+            return ;
+        }
         todo.changeComplete(true);
         todoRepository.save(todo);
     }
