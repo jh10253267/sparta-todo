@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +57,7 @@ public class TodoMainController {
         return todoService.list(pageRequestDTO);
     }
     @PutMapping(value="/{tno}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> modify(@PathVariable("tno") Long tno, @RequestBody TodoRequestDTO todoRequestDTO) {
+    public Map<String, Object> modify(@PathVariable("tno") Long tno, @RequestBody TodoRequestDTO todoRequestDTO, @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> map = new HashMap<>();
 
         TodoResponseDTO todoResponseDTO = todoService.modify(tno,todoRequestDTO);
@@ -64,8 +66,8 @@ public class TodoMainController {
         return map;
     }
     @PostMapping("/{tno}")
-    public void updateComplete(@PathVariable("tno") Long tno) {
-        todoService.updateComplete(tno);
+    public void updateComplete(@PathVariable("tno") Long tno, @AuthenticationPrincipal UserDetails userDetails) {
+        todoService.updateComplete(tno, userDetails.getUsername());
     }
 
 

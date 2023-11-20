@@ -23,10 +23,12 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
         QTodo todo = QTodo.todo;
 
         JPQLQuery<Todo> query = from(todo);
-        query.groupBy(todo);
 
         if(pageRequestDTO.getKeyword() != null){
             query.where(todo.title.contains(pageRequestDTO.getKeyword()));
+        }
+        if(pageRequestDTO.getCompleted() != null) {
+            query.where(todo.complete.eq(pageRequestDTO.getCompleted()));
         }
 
         this.getQuerydsl().applyPagination(pageRequestDTO.getPageable("tno"), query);
@@ -38,7 +40,6 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
                 todo.complete,
                 todo.createdAt
                 ));
-
 
         List<TodoResponseDTO> todoResponseDTOList = dtojpqlQuery.fetch();
 

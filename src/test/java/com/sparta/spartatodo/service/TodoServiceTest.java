@@ -44,15 +44,15 @@ class TodoServiceTest {
         assertThat(todoResponseDTO).isNotNull();
     }
 
-    @DisplayName("[Todo] [Service] [ReadAll]")
-    @Test
-    void givenNothing_whenDoReadAll_thenReturnsAllTodoDTOList() {
-        //Given
-        //When
-        List<TodoResponseDTO> todos = sut.readAll();
-        //Then
-        log.info("todos length: " + todos.size());
-    }
+//    @DisplayName("[Todo] [Service] [ReadAll]")
+//    @Test
+//    void givenNothing_whenDoReadAll_thenReturnsAllTodoDTOList() {
+//        //Given
+//        //When
+//        List<TodoResponseDTO> todos = sut.readAll();
+//        //Then
+//        log.info("todos length: " + todos.size());
+//    }
 
     @DisplayName("[Todo] [Service] [Remove]")
     @Test

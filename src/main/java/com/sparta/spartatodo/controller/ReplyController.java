@@ -3,10 +3,13 @@ package com.sparta.spartatodo.controller;
 import com.sparta.spartatodo.dto.PageRequestDTO;
 import com.sparta.spartatodo.dto.PageResponseDTO;
 import com.sparta.spartatodo.dto.ReplyDTO;
+import com.sparta.spartatodo.dto.ReplyRequestDTO;
 import com.sparta.spartatodo.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,20 +35,28 @@ public class ReplyController {
         return pageResponseDTO;
     }
     @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> modify(@PathVariable("rno") Long rno, ReplyDTO replyDTO) {
+    public Map<String, Object> modify(@PathVariable("rno") Long rno, ReplyRequestDTO replyRequestDTO, @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> map = new HashMap<>();
-        ReplyDTO modReplyDTO = replyService.modify(rno, replyDTO);
+        ReplyDTO modReplyDTO = replyService.modify(rno, replyRequestDTO, userDetails.getUsername());
 
         map.put("Modified Reply", modReplyDTO);
         return map;
     }
     @DeleteMapping("/{rno}")
-    public Map<String, Object> remove(@PathVariable("rno") Long rno) {
-        replyService.remove(rno);
+    public Map<String, Object> remove(@PathVariable("rno") Long rno, @AuthenticationPrincipal UserDetails userDetails) {
+        replyService.remove(rno, userDetails.getUsername());
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Deleted!");
 
         return map;
+    }
+    @PostMapping("/{bno}")
+    public Map<String, Object> register(@PathVariable("bno") Long bno, @RequestBody ReplyRequestDTO replyRequestDTO) {
+        Map<String, Object> map = new HashMap<>();
+        ReplyDTO replyDTO = replyService.register(bno, replyRequestDTO);
+
+        map.put("Reply", replyDTO);
+        return  map;
     }
 
 
