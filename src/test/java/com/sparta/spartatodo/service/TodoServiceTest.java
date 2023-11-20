@@ -78,7 +78,7 @@ class TodoServiceTest {
                 .build();
 
         //When
-        sut.modify(tno, todoRequestDTO);
+        sut.modify(tno, todoRequestDTO, "string");
 
         //Then
         TodoResponseDTO modDto = sut.read(tno);

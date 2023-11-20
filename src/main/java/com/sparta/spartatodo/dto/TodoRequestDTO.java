@@ -17,4 +17,6 @@ public class TodoRequestDTO {
     private String title;
     @NotEmpty
     private String content;
+    @NotBlank
+    private String writer;
 }

@@ -30,7 +30,7 @@ public class CustomRestAdvice {
         return ResponseEntity.badRequest().body(errorMap);
     }
 
-
+    @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     public ResponseEntity<Map<String, String>> handleBindException(BindException e) {
         log.error(e);
@@ -45,6 +45,13 @@ public class CustomRestAdvice {
             });
 
         }
+        return ResponseEntity.badRequest().body(errorMap);
+    }
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Map<String, String>> handelRuntimeException(RuntimeException e) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("message", e.getMessage());
         return ResponseEntity.badRequest().body(errorMap);
     }
 }

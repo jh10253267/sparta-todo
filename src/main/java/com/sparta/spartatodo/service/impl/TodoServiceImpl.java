@@ -59,9 +59,12 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO) {
+    public TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO, String username) {
         Optional<Todo> result = todoRepository.findById(tno);
         Todo todo = result.orElseThrow();
+        if(!todo.getWriter().equals(username)) {
+            throw new RuntimeException();
+        }
         todo.changeTitle(todoRequestDTO.getTitle());
         todo.changeContent(todoRequestDTO.getContent());
 
@@ -75,7 +78,7 @@ public class TodoServiceImpl implements TodoService {
         Optional<Todo> result = todoRepository.findById(tno);
         Todo todo = result.orElseThrow();
         if(!todo.getWriter().equals(username)) {
-            return ;
+            throw new RuntimeException();
         }
         todo.changeComplete(true);
         todoRepository.save(todo);

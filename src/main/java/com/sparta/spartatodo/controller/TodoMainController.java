@@ -1,7 +1,5 @@
 package com.sparta.spartatodo.controller;
 
-
-import com.sparta.spartatodo.domain.Todo;
 import com.sparta.spartatodo.dto.PageRequestDTO;
 import com.sparta.spartatodo.dto.PageResponseDTO;
 import com.sparta.spartatodo.dto.TodoRequestDTO;
@@ -10,7 +8,6 @@ import com.sparta.spartatodo.service.TodoService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -57,10 +53,10 @@ public class TodoMainController {
         return todoService.list(pageRequestDTO);
     }
     @PutMapping(value="/{tno}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> modify(@PathVariable("tno") Long tno, @RequestBody TodoRequestDTO todoRequestDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public Map<String, Object> modify(@PathVariable("tno") Long tno, @Valid @RequestBody TodoRequestDTO todoRequestDTO, @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> map = new HashMap<>();
 
-        TodoResponseDTO todoResponseDTO = todoService.modify(tno,todoRequestDTO);
+        TodoResponseDTO todoResponseDTO = todoService.modify(tno,todoRequestDTO, userDetails.getUsername());
         map.put("Modified Todo", todoResponseDTO);
 
         return map;

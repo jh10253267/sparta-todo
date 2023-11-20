@@ -13,6 +13,6 @@ public interface TodoService {
     TodoResponseDTO read(Long tno);
     PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO);
     void remove(Long tno);
-    TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO);
+    TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO, String username);
     void updateComplete(Long tno, String username);
 }
