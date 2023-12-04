@@ -47,6 +47,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     implementation 'org.modelmapper:modelmapper:3.2.0'
+    runtimeOnly 'com.h2database:h2'
 
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -57,6 +58,9 @@ dependencies {
 
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}" // querydsl 라이브러리
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}" //  Querydsl 관련 코드 생성 기능 제공
+
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+
 }
 
 tasks.named('bootBuildImage') {

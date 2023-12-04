@@ -30,7 +30,7 @@ public class APILoginFilter extends AbstractAuthenticationProcessingFilter {
             return null;
         }
         //사용자로 부터 입력받은 로그인 정보를 파싱
-        Map<String, String > jsonData = parseRequestJSON(request);
+        Map<String, String> jsonData = parseRequestJSON(request);
 
         log.info(jsonData);
 

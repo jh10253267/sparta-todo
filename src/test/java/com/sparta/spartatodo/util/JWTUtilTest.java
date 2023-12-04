@@ -4,17 +4,13 @@ import io.jsonwebtoken.JwtException;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.persistence.MappedSuperclass;
 import java.util.Map;
-import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @SpringBootTest
 @Log4j2
@@ -33,8 +29,9 @@ class JWTUtilTest {
         String jwtStr = jwtUtil.generateToken(claimMap, 1);
 
         //Then
-        assertThat(jwtStr).isNotNull();
+        log.info("-------------jwtStr-----------");
         log.info(jwtStr);
+        assertThat(jwtStr).isNotNull();
     }
     @DisplayName("유효기간이 지난 토큰을 이용해 JWTUtil의 validateToken 메소드가 잘 동작하는지 테스트")
     @Test

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=crome">
+    <title>Document</title>
+    <style>
+        .signup {
+            margin : 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<section class="signup">
+<form action="/signup" method="post">
+    <input type="text" placeholder="아이디를 입력하세요" class="mid"><br>
+    <input type="password" placeholder="비밀번호를 입력하세요" class="mpw">
+    <input type="submit" value="회원가입" class="signup-btn">
+</form>
+</section>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const mid = document.querySelector(".mid")
+    const mpw = document.querySelector(".mpw");
+    const signupBtn = document.querySelector(".signup-btn");
+    signupBtn.addEventListener("click", function() {
+        let mid = document.querySelector(".mid").value;
+        let mpw = document.querySelector(".mpw").value;
+        console.log(mid);
+        const data = {
+            mid : mid,
+            mpw : mpw
+        };
+
+    });
+
+</script>
+</body>
+</html>
