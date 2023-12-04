@@ -16,7 +16,7 @@ import java.util.Map;
 @Component
 @Log4j2
 public class JWTUtil {
-    @Value("${com.sparta.jwt.secret}")
+    @Value("${jwt.secret}")
     private String key;
 
     public String generateToken(Map<String, Object> valueMap, int days) {
@@ -24,7 +24,7 @@ public class JWTUtil {
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ","JWT");
-        headers.put("alg", "HS@%^");
+        headers.put("alg", "HS256");
 
         Map<String, Object> payloads = new HashMap<>();
         payloads.putAll(valueMap);

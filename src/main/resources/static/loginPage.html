@@ -16,13 +16,12 @@
     $loginBtn.addEventListener("click", () => {
         let mid = document.querySelector(".mid").value;
         let mpw = document.querySelector(".mpw").value;
-        console.log(mid);
+
         const data = {
             mid : mid,
             mpw : mpw
         };
 
-        console.log(data);
         axios.post("http://localhost:8080/login", data).then(res => {
             const accessToken = res.data.accessToken;
             const refreshToken = res.data.refreshToken;

@@ -1,8 +1,8 @@
 package com.sparta.spartatodo.security;
 
-import com.sparta.spartatodo.domain.APIUser;
-import com.sparta.spartatodo.dto.APIUserDTO;
-import com.sparta.spartatodo.repository.APIUserRepository;
+import com.sparta.spartatodo.apiuser.domain.APIUser;
+import com.sparta.spartatodo.apiuser.dto.APIUserDTO;
+import com.sparta.spartatodo.apiuser.repository.APIUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
