@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface TodoService {
-    TodoResponseDTO register(TodoRequestDTO todoRequestDTO);
+    TodoResponseDTO register(TodoRequestDTO todoRequestDTO, String username);
     TodoResponseDTO read(Long tno);
-    PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO);
+//    PageResponseDTO<TodoResponseDTO> list(PageRequestDTO pageRequestDTO);
     void remove(Long tno);
     TodoResponseDTO modify(Long tno, TodoRequestDTO todoRequestDTO, String username);
     void updateComplete(Long tno, String username);

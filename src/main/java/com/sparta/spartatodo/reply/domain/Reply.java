@@ -1,6 +1,6 @@
 package com.sparta.spartatodo.reply.domain;
 
-import com.sparta.spartatodo.domain.BaseEntity;
+import com.sparta.spartatodo.global.domain.BaseEntity;
 import com.sparta.spartatodo.todo.domain.Todo;
 import lombok.*;
 

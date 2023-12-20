@@ -1,4 +1,4 @@
-package com.sparta.spartatodo.exception;
+package com.sparta.spartatodo.global.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
