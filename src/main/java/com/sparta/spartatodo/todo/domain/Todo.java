@@ -1,6 +1,6 @@
 package com.sparta.spartatodo.todo.domain;
 
-import com.sparta.spartatodo.domain.BaseEntity;
+import com.sparta.spartatodo.global.domain.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +16,9 @@ public class Todo extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tno;
+    @Column(length = 100)
     private String title;
+    @Column(length = 1000)
     private String content;
     private String writer;
     private boolean complete;
@@ -30,5 +32,6 @@ public class Todo extends BaseEntity {
     public void changeComplete(boolean complete) {
         this.complete = complete;
     }
+
 
 }
