@@ -6,5 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserService {
     void signUp(SignUpRequestDTO signUpRequestDTO);
+    boolean checkUsernameDuplication(String username);
 
 }
