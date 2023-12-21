@@ -1,4 +1,4 @@
-package com.sparta.spartatodo.todo.dto;
+package com.sparta.spartatodo.global.request;
 
 import lombok.Builder;
 import lombok.Getter;

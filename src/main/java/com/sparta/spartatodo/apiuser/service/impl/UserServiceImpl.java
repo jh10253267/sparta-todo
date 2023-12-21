@@ -4,7 +4,6 @@ import com.sparta.spartatodo.apiuser.domain.APIUser;
 import com.sparta.spartatodo.apiuser.dto.SignUpRequestDTO;
 import com.sparta.spartatodo.apiuser.repository.APIUserRepository;
 import com.sparta.spartatodo.apiuser.service.UserService;
-import com.sparta.spartatodo.global.Response;
 import com.sparta.spartatodo.global.exception.CustomTodoException;
 import com.sparta.spartatodo.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +21,17 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void signUp(SignUpRequestDTO signUpRequestDTO) {
-        Optional<APIUser> result = apiUserRepository.findById(signUpRequestDTO.getMid());
+    public APIUser signUp(SignUpRequestDTO signUpRequestDTO) {
+        apiUserRepository.findByMid(signUpRequestDTO.getMid()).ifPresent(it -> {
+            throw new CustomTodoException(ErrorCode.DUPLICATED_USER_NAME, String.format("%s is duplicated", signUpRequestDTO.getMid()));
+        });
 
-        log.info(signUpRequestDTO.getMid());
-        if (result.isPresent()) {
-            throw new CustomTodoException(ErrorCode.DUPLICATED_USER_NAME, "이미 존재하는 아이디입니다.");
-        }
         APIUser apiUser = APIUser.builder()
                 .mid(signUpRequestDTO.getMid())
                 .mpw(passwordEncoder.encode(signUpRequestDTO.getMpw()))
                 .build();
-        apiUserRepository.save(apiUser);
+        APIUser signedUser = apiUserRepository.save(apiUser);
+        return signedUser;
     }
 
     @Override
