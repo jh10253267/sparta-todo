@@ -1,7 +1,7 @@
 package com.sparta.spartatodo.global.advice;
 
 
-import com.sparta.spartatodo.global.Response;
+import com.sparta.spartatodo.global.response.Response;
 import com.sparta.spartatodo.global.exception.CustomTodoException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -51,13 +51,6 @@ public class CustomRestAdvice {
 
         return ResponseEntity.badRequest().body(errorMap);
     }
-//    @ExceptionHandler(RuntimeException.class)
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ResponseEntity<Map<String, String>> handelRuntimeException(RuntimeException e) {
-//        Map<String, String> errorMap = new HashMap<>();
-//        errorMap.put("message", e.getMessage());
-//        return ResponseEntity.badRequest().body(errorMap);
-//    }
     @ExceptionHandler(CustomTodoException.class)
     public ResponseEntity<?> applicationHandler(CustomTodoException e) {
         log.error("Error occurs {}", e.toString());

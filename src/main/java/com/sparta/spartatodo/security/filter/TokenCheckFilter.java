@@ -1,12 +1,16 @@
 package com.sparta.spartatodo.security.filter;
 
-import com.sparta.spartatodo.exception.AccessTokenException;
+import com.sparta.spartatodo.global.exception.AccessTokenException;
+import com.sparta.spartatodo.security.APIUserDetailsService;
 import com.sparta.spartatodo.util.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,18 +23,34 @@ import java.util.Map;
 @Log4j2
 @RequiredArgsConstructor
 public class TokenCheckFilter extends OncePerRequestFilter {
+    private final APIUserDetailsService apiUserDetailsService;
     private final JWTUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
+
         //api로 시작하는 경로에 대해서 필터 적용.
-        if (!path.startsWith("/api/") || path.startsWith("/signup")) {
+        if (!path.startsWith("/api/") || path.contains("/users")) {
             filterChain.doFilter(request, response);
             return;
         }
+
         try {
-            validateAccessToken(request);
+            Map<String, Object> payload = validateAccessToken(request);
+
+            String mid = (String)payload.get("mid");
+
+            log.info("mid: " + mid);
+
+            UserDetails userDetails = apiUserDetailsService.loadUserByUsername(mid);
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
             filterChain.doFilter(request, response);
         } catch (AccessTokenException accessTokenException) {
             accessTokenException.sendResponseError(response);
