@@ -1,9 +1,9 @@
 package com.sparta.spartatodo.apiuser.controller;
 
-import com.sparta.spartatodo.apiuser.dto.UsernameCheckDTO;
+import com.sparta.spartatodo.apiuser.dto.MidCheckDTO;
 import com.sparta.spartatodo.apiuser.dto.SignUpRequestDTO;
 import com.sparta.spartatodo.apiuser.service.UserService;
-import com.sparta.spartatodo.global.Response;
+import com.sparta.spartatodo.global.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +25,9 @@ public class UserController {
 
     // TODO : implement
     @PostMapping("/check")
-    public Response<Void> validateUsername(@RequestBody UsernameCheckDTO usernameCheckDTO) {
-        boolean temp =  userService.checkUsernameDuplication(usernameCheckDTO.getUserName());
-        return Response.success();
+    public Response<Boolean> validateUsername(@RequestBody MidCheckDTO midCheckDTO) {
+        boolean temp =  userService.checkUsernameDuplication(midCheckDTO.getMid());
+        return Response.success(temp);
     }
 
 }
