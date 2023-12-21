@@ -1,11 +1,6 @@
-package com.sparta.spartatodo.service;
+package com.sparta.spartatodo.todo.service;
 
-import com.sparta.spartatodo.reply.dto.ReplyDTO;
-import com.sparta.spartatodo.reply.service.ReplyService;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
