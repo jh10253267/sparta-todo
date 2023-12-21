@@ -21,7 +21,7 @@ public class APIUserDetailsService implements UserDetailsService {
     private final APIUserRepository apiUserRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<APIUser> result = apiUserRepository.findById(username);
+        Optional<APIUser> result = apiUserRepository.findByMid(username);
         APIUser apiUser = result.orElseThrow(() -> new UsernameNotFoundException("Cannot find User"));
 
         LoginRequestDTO dto = new LoginRequestDTO(

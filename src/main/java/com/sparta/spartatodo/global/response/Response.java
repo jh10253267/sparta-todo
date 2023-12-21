@@ -1,4 +1,4 @@
-package com.sparta.spartatodo.global;
+package com.sparta.spartatodo.global.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
