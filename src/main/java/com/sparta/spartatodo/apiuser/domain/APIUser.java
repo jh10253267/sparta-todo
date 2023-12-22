@@ -14,6 +14,8 @@ import javax.persistence.*;
 @Table(name = "api_user")
 public class APIUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long uno;
     private String mid;
     private String mpw;
 

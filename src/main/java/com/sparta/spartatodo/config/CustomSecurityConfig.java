@@ -48,6 +48,9 @@ public class CustomSecurityConfig {
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         log.info("----configure----");
 
+        http.authorizeHttpRequests()
+                .antMatchers("/api/*/users/signup").permitAll();
+
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
@@ -68,7 +71,7 @@ public class CustomSecurityConfig {
 
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenCheckFilter(apiUserDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         //TokenCheckFilter 호출
         http.addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil),
@@ -76,10 +79,11 @@ public class CustomSecurityConfig {
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         return http.build();
     }
 
-    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil) {
-        return new TokenCheckFilter(jwtUtil);
+    private TokenCheckFilter tokenCheckFilter(APIUserDetailsService apiUserDetailsService,JWTUtil jwtUtil) {
+        return new TokenCheckFilter(apiUserDetailsService, jwtUtil);
     }
 }

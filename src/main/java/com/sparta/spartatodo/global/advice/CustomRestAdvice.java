@@ -1,6 +1,8 @@
-package com.sparta.spartatodo.controller.advice;
+package com.sparta.spartatodo.global.advice;
 
 
+import com.sparta.spartatodo.global.response.Response;
+import com.sparta.spartatodo.global.exception.CustomTodoException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class CustomRestAdvice {
         return ResponseEntity.badRequest().body(errorMap);
     }
 
+    //유효성 검증에 실패했을 경우 에러 핸들링
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
     public ResponseEntity<Map<String, String>> handleBindException(BindException e) {
@@ -45,13 +48,13 @@ public class CustomRestAdvice {
             });
 
         }
+
         return ResponseEntity.badRequest().body(errorMap);
     }
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Map<String, String>> handelRuntimeException(RuntimeException e) {
-        Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("message", e.getMessage());
-        return ResponseEntity.badRequest().body(errorMap);
+    @ExceptionHandler(CustomTodoException.class)
+    public ResponseEntity<?> applicationHandler(CustomTodoException e) {
+        log.error("Error occurs {}", e.toString());
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(Response.error(e.getErrorCode().name()));
     }
 }

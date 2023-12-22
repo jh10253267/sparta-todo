@@ -1,22 +1,19 @@
 package com.sparta.spartatodo.apiuser.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
 @Getter
-@ToString
 @Setter
-public class APIUserDTO extends User {
+public class LoginRequestDTO extends User {
     private String mid;
     private String mpw;
 
 
-    public APIUserDTO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public LoginRequestDTO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.mid = username;
         this.mpw = password;

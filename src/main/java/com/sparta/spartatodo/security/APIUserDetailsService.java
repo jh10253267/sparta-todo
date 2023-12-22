@@ -1,7 +1,7 @@
 package com.sparta.spartatodo.security;
 
 import com.sparta.spartatodo.apiuser.domain.APIUser;
-import com.sparta.spartatodo.apiuser.dto.APIUserDTO;
+import com.sparta.spartatodo.apiuser.dto.LoginRequestDTO;
 import com.sparta.spartatodo.apiuser.repository.APIUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,10 +21,10 @@ public class APIUserDetailsService implements UserDetailsService {
     private final APIUserRepository apiUserRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<APIUser> result = apiUserRepository.findById(username);
+        Optional<APIUser> result = apiUserRepository.findByMid(username);
         APIUser apiUser = result.orElseThrow(() -> new UsernameNotFoundException("Cannot find User"));
 
-        APIUserDTO dto = new APIUserDTO(
+        LoginRequestDTO dto = new LoginRequestDTO(
                 apiUser.getMid(),
                 apiUser.getMpw(),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));

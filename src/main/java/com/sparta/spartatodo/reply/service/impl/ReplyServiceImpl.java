@@ -2,9 +2,9 @@ package com.sparta.spartatodo.reply.service.impl;
 
 import com.sparta.spartatodo.reply.domain.Reply;
 import com.sparta.spartatodo.todo.domain.Todo;
-import com.sparta.spartatodo.todo.dto.PageRequestDTO;
-import com.sparta.spartatodo.todo.dto.PageResponseDTO;
-import com.sparta.spartatodo.reply.dto.ReplyDTO;
+import com.sparta.spartatodo.global.request.PageRequestDTO;
+import com.sparta.spartatodo.global.request.PageResponseDTO;
+import com.sparta.spartatodo.reply.dto.ReplyResponseDTO;
 import com.sparta.spartatodo.reply.dto.ReplyRequestDTO;
 import com.sparta.spartatodo.reply.repository.ReplyRepository;
 import com.sparta.spartatodo.todo.repository.TodoRepository;
@@ -30,57 +30,57 @@ public class ReplyServiceImpl implements ReplyService {
     private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
     @Override
-    public ReplyDTO register(Long bno, ReplyRequestDTO replyRequestDTO) {
+    public ReplyResponseDTO register(Long bno, ReplyRequestDTO replyRequestDTO, String writer) {
         Optional<Todo> result = todoRepository.findById(bno);
         Todo todo = result.orElseThrow();
 
         Reply reply = Reply.builder()
                 .todo(todo)
                 .replyText(replyRequestDTO.getReplyText())
-                .replyWriter(replyRequestDTO.getReplyWriter())
+                .writer(writer)
                 .build();
         Reply createdReply = replyRepository.save(reply);
 
-        return modelMapper.map(createdReply, ReplyDTO.class);
+        return modelMapper.map(createdReply, ReplyResponseDTO.class);
     }
 
     @Override
-    public ReplyDTO read(Long rno) {
+    public ReplyResponseDTO read(Long rno) {
         Optional<Reply> result = replyRepository.findById(rno);
         Reply reply = result.orElseThrow();
-        return modelMapper.map(reply, ReplyDTO.class);
+        return modelMapper.map(reply, ReplyResponseDTO.class);
     }
 
     @Override
-    public ReplyDTO modify(Long rno, ReplyRequestDTO replyRequestDTO, String username) {
+    public ReplyResponseDTO modify(Long rno, ReplyRequestDTO replyRequestDTO, String username) {
         Optional<Reply> result = replyRepository.findById(rno);
         Reply reply = result.orElseThrow();
-        if(!reply.getReplyWriter().equals(username)) {
+        if(!reply.getWriter().equals(username)) {
             return null;
         }
         reply.changeText(reply.getReplyText());
         Reply modReply = replyRepository.save(reply);
-        return modelMapper.map(modReply, ReplyDTO.class);
+        return modelMapper.map(modReply, ReplyResponseDTO.class);
     }
 
     @Override
     public void remove(Long rno, String username) {
         Optional<Reply> result = replyRepository.findById(rno);
         Reply reply = result.orElseThrow();
-        if(!reply.getReplyWriter().equals(username)) {
+        if(!reply.getWriter().equals(username)) {
             return;
         }
         replyRepository.deleteById(rno);
     }
     @Override
-    public PageResponseDTO<ReplyDTO> getReplyListOfTodo(Long bno, PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<ReplyResponseDTO> getReplyListOfTodo(Long bno, PageRequestDTO pageRequestDTO) {
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage() <= 0 ? 0 : pageRequestDTO.getPage() -1, pageRequestDTO.getSize(), Sort.by("rno").ascending());
         Page<Reply> result = replyRepository.listOfTodo(bno, pageable);
 
-        List<ReplyDTO> dtoList = result.getContent().stream().map(reply -> modelMapper.map(reply, ReplyDTO.class))
+        List<ReplyResponseDTO> dtoList = result.getContent().stream().map(reply -> modelMapper.map(reply, ReplyResponseDTO.class))
                 .collect(Collectors.toList());
 
-        return PageResponseDTO.<ReplyDTO>withAll()
+        return PageResponseDTO.<ReplyResponseDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(dtoList)
                 .total((int)result.getTotalElements())

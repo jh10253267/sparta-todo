@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReplyDTO {
+public class ReplyResponseDTO {
     private String replyText;
     private String replyWriter;
     private LocalDateTime createdAt;

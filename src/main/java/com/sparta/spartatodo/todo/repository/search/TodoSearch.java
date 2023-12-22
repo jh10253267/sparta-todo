@@ -1,13 +1,9 @@
 package com.sparta.spartatodo.todo.repository.search;
 
-import com.sparta.spartatodo.todo.dto.PageRequestDTO;
-import com.sparta.spartatodo.todo.dto.TodoResponseDTO;
+import com.sparta.spartatodo.todo.domain.Todo;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TodoSearch {
-
-    Page<TodoResponseDTO> searchWithQuery(PageRequestDTO pageRequestDTO);
-
-
-
+    Page<Todo> searchAll(String[] types, String keyword, Pageable pageable);
 }

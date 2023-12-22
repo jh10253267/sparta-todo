@@ -19,7 +19,7 @@ class JWTUtilTest {
     @Autowired
     private JWTUtil jwtUtil;
 
-    @DisplayName("JWTUtil의 토큰 생성 기능을 테스트")
+    @DisplayName("[JWTUtil] [GenerateToken]")
     @Test
     void givenDummyClaimData_whenExecuteJwtGenerateTokenMethod_thenReturnsJwtString() {
         // Given

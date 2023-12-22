@@ -2,7 +2,7 @@ package com.sparta.spartatodo.security.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.spartatodo.exception.RefreshTokenException;
+import com.sparta.spartatodo.global.exception.RefreshTokenException;
 import com.sparta.spartatodo.util.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
